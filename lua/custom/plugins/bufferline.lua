@@ -8,7 +8,7 @@ return {
   },
   opts = {
     options = {
-      mode = 'tabs', -- "buffers" or "tabs"
+      mode = 'buffers', -- "buffers" or "tabs"
       -- separator_style = "slant", -- or "padded_slant", "slope", "padded_slope", "thick", "thin" | "padded_thin"
       -- diagnostics = "nvim_lsp", -- false | "nvim_lsp" | "coc"
       -- diagnostics_indicator = function(count, level, diagnostics_dict, context)

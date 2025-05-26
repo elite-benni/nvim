@@ -204,6 +204,28 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
+-- 1. Map Ctrl + s to save the current file
+-- In Normal mode
+vim.keymap.set('n', '<C-s>', '<Cmd>write<CR>', {
+  desc = 'Save file',
+  noremap = true,
+  silent = true,
+})
+
+-- In Insert mode (exits to Normal, saves, then returns to Insert)
+vim.keymap.set('i', '<C-s>', '<Esc><Cmd>write<CR>', {
+  desc = 'Save file',
+  noremap = true,
+  silent = true,
+})
+
+-- 2. Map Ctrl + Alt + s for "signature"
+-- This is typically used in Insert mode
+vim.keymap.set('i', '<C-A-s>', vim.lsp.buf.signature_help, {
+  desc = 'LSP: Signature Help',
+  noremap = true,
+  silent = true,
+})
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -430,6 +452,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      vim.keymap.set('n', '<C-p>', builtin.find_files, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
@@ -437,6 +460,21 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      vim.keymap.set('n', '<A-h>', '<Cmd>BufferLineCyclePrev<CR>', {
+        desc = 'BufferLine: Cycle to previous buffer',
+        noremap = true,
+        silent = true,
+      })
+      vim.keymap.set('n', '<A-l>', '<Cmd>BufferLineCycleNext<CR>', {
+        desc = 'BufferLine: Cycle to next buffer',
+        noremap = true,
+        silent = true,
+      })
+      vim.keymap.set('n', '<A-w>', '<Cmd>bdelete<CR>', {
+        desc = 'Close (delete) current buffer',
+        noremap = true,
+        silent = true,
+      })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -555,6 +593,7 @@ require('lazy').setup({
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
           map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
@@ -682,7 +721,18 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        ts_ls = {
+          root_dir = require('lspconfig').util.root_pattern(
+            'nx.json', -- For Nx monorepo root
+            'angular.json', -- For Angular workspace root
+            'package.json', -- General project marker
+            '.git' -- Fallback to git repository root
+          ),
+        },
+        angularls = {
+          root_dir = require('lspconfig').util.root_pattern('nx.json', 'angular.json', 'package.json', '.git'),
+        },
+
         --
 
         lua_ls = {
@@ -762,7 +812,7 @@ require('lazy').setup({
           return nil
         else
           return {
-            timeout_ms = 500,
+            timeout_ms = 2000,
             lsp_format = 'fallback',
           }
         end
@@ -773,7 +823,16 @@ require('lazy').setup({
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettier' },
+        javascriptreact = { 'prettier' },
+        typescriptreact = { 'prettier' },
+        css = { 'prettier' },
+        scss = { 'prettier' },
+        less = { 'prettier' },
+        html = { 'prettier' },
+        json = { 'prettier' },
+        yaml = { 'prettier' },
       },
     },
   },
