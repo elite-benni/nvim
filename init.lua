@@ -177,6 +177,8 @@ end, { desc = 'Open Diagnostics in Float' })
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('i', 'jk', '<Esc>', { noremap = true, silent = true })
+vim.keymap.set({ 'i', 'n', 'v', 's', 'o' }, '…', '<Esc>', opts)
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -797,6 +799,7 @@ require('lazy').setup({
         function()
           require('conform').format { async = true, lsp_format = 'fallback' }
         end,
+
         mode = '',
         desc = '[F]ormat buffer',
       },
@@ -807,7 +810,7 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = { c = true, cpp = true, json = true, jsonc = true }
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
         else
@@ -832,6 +835,7 @@ require('lazy').setup({
         less = { 'prettier' },
         html = { 'prettier' },
         json = { 'prettier' },
+        jsonc = { 'prettier' },
         yaml = { 'prettier' },
       },
     },
