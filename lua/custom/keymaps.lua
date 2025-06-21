@@ -59,6 +59,7 @@ vim.keymap.set('i', '<C-s>', '<Esc><Cmd>write<CR>', {
   silent = true,
 })
 
+vim.keymap.set('n', 'K', '<CMD>Lspsaga hover_doc<CR>', { buffer = bufnr, desc = 'LSP Hover Docs' })
 -- 2. Map Ctrl + Alt + s for "signature"
 -- This is typically used in Insert mode
 vim.keymap.set('i', '<C-A-s>', vim.lsp.buf.signature_help, {
