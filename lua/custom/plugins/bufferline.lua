@@ -15,7 +15,7 @@ return {
       --   return "("..count..")"
       -- end,
       -- show_buffer_icons = true, -- Disable if you don't want icons
-      -- show_buffer_close_icons = true,
+      show_buffer_close_icons = false,
       -- show_close_icon = '',
       -- show_tab_indicators = true,
       -- persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
@@ -31,6 +31,10 @@ return {
         },
       },
       -- Add more options here as needed
+      indicator = {
+        style = 'underline',
+      },
+      max_name_length = 30,
     },
   },
   config = function(_, opts)
