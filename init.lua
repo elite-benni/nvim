@@ -775,6 +775,7 @@ require('lazy').setup({
         scss = { 'prettierd' },
         less = { 'prettierd' },
         html = { 'prettierd' },
+        htmlangular = { 'prettierd' },
         json = { 'prettierd' },
         jsonc = { 'prettierd' },
         yaml = { 'prettierd' },
